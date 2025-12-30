@@ -1,3 +1,10 @@
+/**
+ * BookPublisher MD2Docx
+ * Copyright (c) 2025 EricHuang
+ * Licensed under the MIT License.
+ * See LICENSE file in the project root for full license information.
+ */
+
 import React, { useState, useEffect } from 'react';
 import { Download, FileText, Sparkles, Settings2 } from 'lucide-react';
 import saveAs from 'file-saver';

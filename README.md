@@ -94,6 +94,11 @@ AI: React Hook 是 React 16.8 新增的特性...
 - **強調**: 這是 **粗體** 和 *斜體 (轉檔後為深藍色)*。
 - **行內程式碼**: 使用 `npm install` 指令。
 
+## 🎨 客製化指南 (Customization)
+
+本專案支援高度客製化，您可以根據需求調整字體、顏色或新增 Markdown 語法。詳細說明請參考：
+- [📘 客製化指南 (CUSTOMIZATION.md)](CUSTOMIZATION.md)
+
 ## 🛠️ 技術棧 (Tech Stack)
 
 - **Frontend Framework**: [React 19](https://react.dev/)
