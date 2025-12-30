@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BookPublisher MD2Docx | 專業技術書稿轉檔</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 核心排版策略：英數強制 Consolas，中文微軟正黑體 */
+        :root {
+            --font-main: "Consolas", "Monaco", "Courier New", "Microsoft JhengHei", "微軟正黑體", sans-serif;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: #f1f5f9;
+            margin: 0;
+            color: #1e293b;
+        }
+
+        .manuscript-font {
+            font-family: var(--font-main);
+        }
+
+        /* 程式碼塊強制等寬 */
+        code, pre, .font-mono {
+            font-family: "Consolas", "Monaco", monospace !important;
+        }
+
+        /* 自定義捲軸 */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f8fafc; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/buffer/6.0.3/buffer.min.js"></script>
+    <script>
+        // 關鍵：將 Buffer 掛載到全局，docx 庫才能運作
+        window.Buffer = window.Buffer || buffer.Buffer;
+        // 確保 process.env 存在，避免 Gemini SDK 報錯
+        window.process = window.process || { env: { API_KEY: "" } };
+    </script>
+    <script type="importmap">
+    {
+      "imports": {
+        "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+        "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+        "react/": "https://esm.sh/react@^19.2.3/",
+        "react": "https://esm.sh/react@^19.2.3",
+        "file-saver": "https://esm.sh/file-saver@^2.0.5",
+        "docx": "https://esm.sh/docx@^9.5.1",
+        "@google/genai": "https://esm.sh/@google/genai@^0.2.1"
+      }
+    }
+    </script>
+</head>
+<body class="manuscript-font">
+    <div id="root"></div>
+</body>
+</html>
