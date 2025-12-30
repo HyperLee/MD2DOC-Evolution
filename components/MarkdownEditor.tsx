@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Download, FileText, Sparkles } from 'lucide-react';
+import { Download, FileText, Sparkles, Settings2 } from 'lucide-react';
 import saveAs from 'file-saver';
 import { parseMarkdown } from '../services/markdownParser.ts';
 import { generateDocx } from '../services/docxGenerator.ts';
@@ -83,10 +83,20 @@ const myBook: BookConfig = {
 這裡是三級標題下的文字，匯出時會自動加上底部的裝飾線或特定的縮排間距。
 `;
 
+// 定義可選的版面尺寸
+const PAGE_SIZES = [
+  { name: "技術書籍 (17x23cm)", width: 17, height: 23 },
+  { name: "A4 (21x29.7cm)", width: 21, height: 29.7 },
+  { name: "A5 (14.8x21cm)", width: 14.8, height: 21 },
+  { name: "B5 (17.6x25cm)", width: 17.6, height: 25 },
+];
+
 const MarkdownEditor: React.FC = () => {
   const [content, setContent] = useState(INITIAL_CONTENT);
   const [parsedBlocks, setParsedBlocks] = useState<ParsedBlock[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
+  // 新增版面尺寸狀態，預設為第一個 (技術書籍)
+  const [selectedSizeIndex, setSelectedSizeIndex] = useState(0);
 
   useEffect(() => {
     try {
@@ -101,7 +111,11 @@ const MarkdownEditor: React.FC = () => {
     if (parsedBlocks.length === 0) return;
     setIsGenerating(true);
     try {
-      const blob = await generateDocx(parsedBlocks);
+      const sizeConfig = PAGE_SIZES[selectedSizeIndex];
+      const blob = await generateDocx(parsedBlocks, { 
+        widthCm: sizeConfig.width, 
+        heightCm: sizeConfig.height 
+      });
       saveAs(blob, "Professional_Manuscript.docx");
     } catch (error) {
       console.error("Word 轉檔失敗:", error);
@@ -125,6 +139,22 @@ const MarkdownEditor: React.FC = () => {
         </div>
         
         <div className="flex items-center gap-4">
+          {/* 版面尺寸選擇器 */}
+          <div className="flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
+            <Settings2 className="w-4 h-4 text-slate-500" />
+            <select 
+              value={selectedSizeIndex}
+              onChange={(e) => setSelectedSizeIndex(Number(e.target.value))}
+              className="bg-transparent text-sm font-medium text-slate-700 focus:outline-none cursor-pointer"
+            >
+              {PAGE_SIZES.map((size, index) => (
+                <option key={index} value={index}>
+                  {size.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <button
             onClick={handleDownload}
             disabled={isGenerating || parsedBlocks.length === 0}

@@ -9,6 +9,9 @@ import {
 } from "docx";
 import { ParsedBlock, BlockType } from "../types.ts";
 
+// 單位換算常數 (1 cm ≒ 567 Twips)
+const CM_TO_TWIPS = 567;
+
 // 字體設定
 const FONT_MAIN_CJK = "Microsoft JhengHei"; // 微軟正黑體
 const FONT_MAIN_LATIN = "Consolas";
@@ -36,6 +39,12 @@ const FONT_CONFIG_ITALIC = {
   eastAsia: FONT_MAIN_CJK, 
   cs: FONT_MAIN_LATIN
 };
+
+// 版面設定介面
+export interface DocxConfig {
+  widthCm: number;
+  heightCm: number;
+}
 
 const parseInlineStyles = (text: string): TextRun[] => {
   const runs: TextRun[] = [];
@@ -129,7 +138,10 @@ const parseInlineStyles = (text: string): TextRun[] => {
   return runs;
 };
 
-export const generateDocx = async (blocks: ParsedBlock[]): Promise<Blob> => {
+export const generateDocx = async (
+    blocks: ParsedBlock[], 
+    config: DocxConfig = { widthCm: 17, heightCm: 23 } // 預設為技術書籍大小
+): Promise<Blob> => {
   const docChildren: any[] = [];
 
   for (const block of blocks) {
@@ -294,7 +306,11 @@ export const generateDocx = async (blocks: ParsedBlock[]): Promise<Blob> => {
     sections: [{
       properties: {
         page: {
-          margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 },
+          size: {
+            width: config.widthCm * CM_TO_TWIPS,
+            height: config.heightCm * CM_TO_TWIPS,
+          },
+          margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 }, // 邊距維持約 2.54cm，可視需求調整
         },
       },
       children: docChildren
