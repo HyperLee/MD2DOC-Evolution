@@ -54,22 +54,39 @@ MD2DOC-Evolution 是一個開源的 Markdown 編輯與轉檔工具，專為**技
 請將我提供的內容轉換為符合規範的格式。
 
 # Rules to follow
-1. 分析內容並生成對應的 YAML Frontmatter (title, author)。
-2. 在文件最開頭插入 `[TOC]`。
-3. 標題層級：嚴格檢查，若有 H4 以上標題，請降級或轉為粗體，僅保留 H1~H3。
-4. 行內樣式重構：
-   - 識別所有 UI 元素、按鈕，改用 `【】`。
-   - 識別所有快捷鍵，改用 `[]`。
-   - 識別所有書名、專案名，改用 `『』`。
-5. 對話重構：若內容中有對話流，請使用 `角色 "::` 與 `::" 角色` 語法。
-6. 提示重構：將所有 Note/Tip/Warning 轉換為專案支援的 `> [!TAG]` 語法。
-7. 程式碼：確保所有區塊都有語言標籤。
+1. **Frontmatter (YAML)**：
+   - 必須在文件最開頭生成 YAML 區塊，並使用 `---` 包裹（頭尾都要）。
+   - 內容僅包含 `title` 與 `author`，**嚴禁**在 YAML 區塊內使用 `#` 符號。
+2. **目錄**：
+   - 在 Frontmatter 之後、正文之前，插入獨立的一行 `[TOC]`。
+3. **標題層級**：
+   - 僅保留 H1 (#) 到 H3 (###)。
+   - 若遇到 H4 或更小的標題，請改為 **粗體** 或合併至上一層。
+4. **列表與縮排**：
+   - **嚴格執行列表縮排**：子項目必須比父項目多縮排 **2個空白 (Spaces)**。
+   - 確保列表結構層次分明，不要將所有項目都攤平在同一層級。
+5. **行內樣式重構**：
+   - UI 元素、按鈕：改用 `【文字】`。
+   - 快捷鍵：改用 `[Key]`。
+   - 書名、專案名：改用 `『文字』`。
+6. **對話重構 (Chat)**：
+   - 當內容出現角色對話時，使用單一開頭語法：`角色 ::"`。
+   - 格式範例：
+     ```markdown
+     ChiYu ::"
+     這是一段對話內容。
+     ```
+   - **禁止**使用結尾標籤（如 `::" ChiYu`）。
+7. **Callout 提示**：
+   - 將 Note/Tip/Warning 等提示區塊轉換為 `> [!TAG]` 語法 (例如 `> [!NOTE]`, `> [!WARNING]`)。
+8. **程式碼**：
+   - 所有程式碼區塊 (```) 必須標註語言 (如 python, csharp, bash)。
 
 # Reference Guide
-詳細語法請參考：https://github.com/eric861129/MD2DOC-Evolution/blob/main/docs/AI_GENERATION_GUIDE.md
+完整規範請參考：[https://github.com/eric861129/MD2DOC-Evolution/blob/main/docs/AI_GENERATION_GUIDE.md](https://github.com/eric861129/MD2DOC-Evolution/blob/main/docs/AI_GENERATION_GUIDE.md)
 
 # Output
-僅輸出轉換後的 Markdown 內容，不要有任何多餘的解釋。
+僅輸出轉換後的 Markdown 內容，不要有任何多餘的解釋或對話。
 
 以下是我的內容：
 [貼上您的內容]
