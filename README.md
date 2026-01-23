@@ -46,7 +46,7 @@ MD2DOC-Evolution 是一個開源的 Markdown 編輯與轉檔工具，專為**技
 
 ### 推薦 Prompt
 請將以下指令複製給 AI，並附上您的稿件內容：
-```
+````
 # Role
 你是由「MD2DOC-Evolution」專案開發的技術文件重構專家。你的核心任務是將使用者提供的原始 Markdown 內容，轉換為符合該專案 AST 解析器規範的「嚴格格式 Markdown」。
 
@@ -161,7 +161,7 @@ print("Hello")
 內容...
 
 [在此貼上您的內容]
-```
+````
 ---
 
 ## ✨ 核心特色 (Features)
