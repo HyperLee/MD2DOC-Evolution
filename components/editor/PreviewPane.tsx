@@ -34,14 +34,17 @@ export const PreviewPane: React.FC<PreviewPaneProps> = ({
         elements.push(
           <ul key={`bullet-list-${i}`} className="ml-8 mb-8">
             {listItems.map((item, idx) => (
-              <li key={idx} className="relative mb-2 pl-4 leading-[1.8] list-none before:content-[''] before:absolute before:left-0 before:top-[0.7em] before:w-2 before:h-2 before:bg-slate-400 dark:before:bg-slate-600 before:rounded-full">
+              <li 
+                key={idx} 
+                style={{ marginLeft: `${(item.nestingLevel || 0) * 1.5}rem` }}
+                className="relative mb-2 pl-4 leading-[1.8] list-none before:content-[''] before:absolute before:left-0 before:top-[0.7em] before:w-2 before:h-2 before:bg-slate-400 dark:before:bg-slate-600 before:rounded-full"
+              >
                  <RenderRichText text={item.content} />
               </li>
             ))}
           </ul>
         );
       } else if (block.type === BlockType.NUMBERED_LIST) {
-        // ... (省略列表邏輯)
         const listItems: ParsedBlock[] = [];
         while (i < parsedBlocks.length && parsedBlocks[i].type === BlockType.NUMBERED_LIST) {
           listItems.push(parsedBlocks[i]);
@@ -50,7 +53,11 @@ export const PreviewPane: React.FC<PreviewPaneProps> = ({
         elements.push(
           <ol key={`numbered-list-${i}`} className="ml-8 mb-8 list-decimal">
             {listItems.map((item, idx) => (
-              <li key={idx} className="mb-2 pl-2 leading-[1.8] text-slate-800 dark:text-slate-200">
+              <li 
+                key={idx} 
+                style={{ marginLeft: `${(item.nestingLevel || 0) * 1.5}rem` }}
+                className="mb-2 pl-2 leading-[1.8] text-slate-800 dark:text-slate-200"
+              >
                  <RenderRichText text={item.content} />
               </li>
             ))}
