@@ -145,13 +145,45 @@ export const parseMarkdownWithAST = (markdown: string, lineOffset: number = 0, c
         break;
 
       case 'list':
-        token.items.forEach((item: any) => {
-          const cleanText = item.text.replace(/^\\[[ x]\\]\s*/, ''); 
-          addBlock({
-            type: token.ordered ? BlockType.NUMBERED_LIST : BlockType.BULLET_LIST,
-            content: cleanText 
+        const processListItems = (items: any[], level: number, ordered: boolean) => {
+          items.forEach(item => {
+            let itemContent = '';
+            const subLists: any[] = [];
+
+            if (item.tokens) {
+              item.tokens.forEach((t: any) => {
+                if (t.type === 'list') {
+                  subLists.push(t);
+                } else {
+                  if (t.type === 'text' || t.type === 'html') {
+                    itemContent += t.text;
+                  } else if (t.raw) {
+                     // Fallback for other token types, try to use raw or text if available
+                     itemContent += (t.text || t.raw);
+                  }
+                }
+              });
+            } else {
+              itemContent = item.text;
+            }
+
+            // Clean content (checkboxes)
+            const cleanText = itemContent.replace(/^\[[ x]\]\s*/, '');
+
+            addBlock({
+              type: ordered ? BlockType.NUMBERED_LIST : BlockType.BULLET_LIST,
+              content: cleanText,
+              nestingLevel: level
+            });
+
+            // Process nested lists
+            subLists.forEach(subList => {
+              processListItems(subList.items, level + 1, subList.ordered);
+            });
           });
-        });
+        };
+
+        processListItems(token.items, 0, token.ordered);
         break;
 
       case 'table':

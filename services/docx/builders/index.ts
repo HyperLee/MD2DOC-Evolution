@@ -70,10 +70,18 @@ export const registerDefaultHandlers = () => {
 
   // Lists
   docxRegistry.register(BlockType.BULLET_LIST, async (block, config) => 
-    new Paragraph({ children: await parseInlineStyles(block.content, config), bullet: { level: 0 }, spacing: SPACING.LIST })
+    new Paragraph({ 
+      children: await parseInlineStyles(block.content, config), 
+      bullet: { level: block.nestingLevel || 0 }, 
+      spacing: SPACING.LIST 
+    })
   );
   docxRegistry.register(BlockType.NUMBERED_LIST, async (block, config) => 
-    new Paragraph({ children: await parseInlineStyles(block.content, config), numbering: { reference: "default-numbering", level: 0 }, spacing: SPACING.LIST })
+    new Paragraph({ 
+      children: await parseInlineStyles(block.content, config), 
+      numbering: { reference: "default-numbering", level: block.nestingLevel || 0 }, 
+      spacing: SPACING.LIST 
+    })
   );
 
   // Table

@@ -40,6 +40,7 @@ export interface ParsedBlock {
     language?: string;
     [key: string]: any;
   };
+  nestingLevel?: number; // For lists
 }
 
 export interface DocumentMeta {
