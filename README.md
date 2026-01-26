@@ -5,6 +5,8 @@
 
 [🇹🇼 中文](README.md) | [🇺🇸 English](README_EN.md)
 
+![功能演示](docs/images/MD2DOC-角色對話-GIF.gif)
+
 ## 喜歡的話可以幫我按星星🌟🌟🌟
 
 MD2DOC-Evolution 是一個開源的 Markdown 編輯與轉檔工具，專為**技術書籍作者**與**內容創作者**設計。它填補了「工程師習慣的 Markdown 寫作」與「出版社要求的 Word 稿件」之間的鴻溝，讓你能專注於內容創作，自動完成繁瑣的排版工作。
